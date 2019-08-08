@@ -1,26 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{Component} from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = ({
+      inputText: "",
+      todoList: []
+    })
+  }
+  updateInput(event) {
+    this.setState({
+      inputText: event.target.value
+    })
+  }
+  addTitle() {
+    this.setState ({
+      todoList: [ ...this.state.todoList, this.state.inputText], /* first time use of spread operator*/
+      inputText: "" 
+    })
+  }
+  handleClicked() {
+
+  }
+
+  render() {
+    return(
+      <div className='App'>
+        <React.Fragment >
+          <input
+            type='text'
+            placeholder='Title'
+            value={this.state.inputText}
+            onChange={(event) => this.updateInput(event)}
+            className='App'
+          />
+          <button
+            onClick={() => this.addTitle()}
+            className='App'>Add Title</button>
+          <hr/>
+          
+          <ol className='App'>
+            {this.state.todoList.map(title => (<li key={title}><button onClick={() => this.handleClicked()}>{title}</button></li>))} {/*function need to change text color onclick. also need to set better key prop*/}
+          </ol>
+
+        </React.Fragment>
+      </div>
+    )
+  }
 }
 
 export default App;
